@@ -7,6 +7,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+env:
+  GLOBAL_VAR : "Hello"
+  CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+
 jobs:
   Windows:
     name: Windows ${{ matrix.compiler }}
@@ -15,11 +19,9 @@ jobs:
       fail-fast: false
       matrix:
         image: [windows-latest]
+        os: 'windows'
         compiler: ["msvc"]
  
-    env:
-      CMAKE_PRESET : windows-${{ matrix.compiler }}-release
-
     steps:
       - name: "Matrix contents"
         run: |
@@ -33,14 +35,14 @@ jobs:
       fail-fast: false
       matrix:
         image: [ubuntu-latest]
+        os: 'linux'
         compiler: ["clang", "gcc"]
-        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
     steps:
       - name: "Matrix contents"
         run: |
           echo "${{ matrix.compiler }}"
-          echo "${{ matrix.cmake_preset }}"
+          echo "${{ env.CMAKE_PRESET }}"
 
   macOS:
     name: macOS ${{ matrix.compiler }}
@@ -49,12 +51,12 @@ jobs:
       fail-fast: false
       matrix:
         image: [macos-latest]
+        os: 'macos'
         compiler: ["clang", "gcc"]
-        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
     steps:
       - name: "Matrix contents"
         run: |
           echo "${{ matrix.compiler }}"
-          echo "${{ matrix.cmake_preset }}"
+          echo "${{ env.CMAKE_PRESET }}"
 
