@@ -9,7 +9,6 @@ on:
 
 env:
   GLOBAL_VAR : "Hello"
-  CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
 
 jobs:
   Windows:
@@ -22,6 +21,9 @@ jobs:
         os: 'windows'
         compiler: ["msvc"]
  
+    env:
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+
     steps:
       - name: "Matrix contents"
         run: |
@@ -38,6 +40,9 @@ jobs:
         os: 'linux'
         compiler: ["clang", "gcc"]
  
+    env:
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+
     steps:
       - name: "Matrix contents"
         run: |
@@ -54,6 +59,9 @@ jobs:
         os: 'macos'
         compiler: ["clang", "gcc"]
  
+    env:
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+
     steps:
       - name: "Matrix contents"
         run: |
