@@ -12,7 +12,7 @@ env:
 
 jobs:
   Windows:
-    name: Windows ${{ matrix.compiler }}
+    name: Windows ${{ matrix.config.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
@@ -26,16 +26,16 @@ jobs:
           }
  
     env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
 
     steps:
       - name: "Matrix contents"
         run: |
-          Write-Host "${{ matrix.compiler }}"
+          Write-Host "${{ matrix.config.compiler }}"
           Write-Host "${{ env.CMAKE_PRESET }}"
 
   Linux:
-    name: Linux ${{ matrix.compiler }}
+    name: Linux ${{ matrix.config.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
@@ -53,16 +53,16 @@ jobs:
           }
  
     env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
 
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.compiler }}"
+          echo "${{ matrix.config.compiler }}"
           echo "${{ env.CMAKE_PRESET }}"
 
   macOS:
-    name: macOS ${{ matrix.compiler }}
+    name: macOS ${{ matrix.config.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
@@ -77,11 +77,11 @@ jobs:
 
  
     env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
+      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
 
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.compiler }}"
+          echo "${{ matrix.config.compiler }}"
           echo "${{ env.CMAKE_PRESET }}"
 
