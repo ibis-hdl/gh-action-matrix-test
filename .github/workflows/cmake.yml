@@ -9,12 +9,11 @@ on:
 
 jobs:
   Windows:
-    name: ${{ matrix.name }}
+    name: Windows ${{ matrix.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        name: "Windows ${{ matrix.compiler }}"
         image: windows-latest
         compiler: ["msvc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
@@ -22,17 +21,15 @@ jobs:
     steps:
       - name: "Matrix contents"
         run: |
-          Write-Host "${{ matrix.name }}"
           Write-Host "${{ matrix.compiler }}"
           Write-Host "${{ matrix.cmake_preset }}"
 
   Linux:
-    name: ${{ matrix.name }}
+    name: Linux ${{ matrix.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        name: "Linux ${{ matrix.compiler }}"
         image: ubuntu-latest
         compiler: ["clang", "gcc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
@@ -40,17 +37,15 @@ jobs:
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.name }}"
           echo "${{ matrix.compiler }}"
           echo "${{ matrix.cmake_preset }}"
 
   macOS:
-    name: ${{ matrix.name }}
+    name: macOS ${{ matrix.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        name: "macOS ${{ matrix.compiler }}"
         image: macos-latest
         compiler: ["clang", "gcc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
@@ -58,7 +53,6 @@ jobs:
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.name }}"
           echo "${{ matrix.compiler }}"
           echo "${{ matrix.cmake_preset }}"
 
