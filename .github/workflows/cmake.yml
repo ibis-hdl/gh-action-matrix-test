@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: Windows ${{ matrix.compiler }}
+        name: "Windows ${{ matrix.compiler }}"
         image: windows-latest
         compiler: ["msvc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: Linux ${{ matrix.compiler }}
+        name: "Linux ${{ matrix.compiler }}"
         image: ubuntu-latest
         compiler: ["clang", "gcc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
@@ -50,7 +50,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: macOS ${{ matrix.compiler }}
+        name: "macOS ${{ matrix.compiler }}"
         image: macos-latest
         compiler: ["clang", "gcc"]
         cmake_preset: windows-${{ matrix.compiler }}-release
