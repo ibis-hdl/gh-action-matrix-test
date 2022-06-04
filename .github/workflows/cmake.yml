@@ -1,67 +1,64 @@
---- 
-jobs: 
-  Linux: 
-    name: "${{ matrix.name }}"
-    runs-on: "${{ matrix.image }}"
-    steps: 
-      - 
-        name: "Matrix contents"
-        run: |
-            echo "${{ matrix.name }}"
-            echo "${{ matrix.compiler }}"
-            echo "${{ matrix.cmake_preset }}"
-    strategy: 
+name: 'CMake build'
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Windows:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.image }}
+    strategy:
       fail-fast: false
-      matrix: 
-        cmake_preset: "windows-${{ matrix.compiler }}-release"
-        compiler: 
-          - clang
-          - gcc
-        image: ubuntu-latest
-        name: "Linux ${{ matrix.compiler }}"
-  Windows: 
-    name: "${{ matrix.name }}"
-    runs-on: "${{ matrix.image }}"
-    steps: 
-      - 
-        name: "Matrix contents"
-        run: |
-            Write-Host "${{ matrix.name }}"
-            Write-Host "${{ matrix.compiler }}"
-            Write-Host "${{ matrix.cmake_preset }}"
-    strategy: 
-      fail-fast: false
-      matrix: 
-        cmake_preset: "windows-${{ matrix.compiler }}-release"
-        compiler: 
-          - msvc
+      matrix:
+        name: Windows ${{ matrix.compiler }}
         image: windows-latest
-        name: "Windows ${{ matrix.compiler }}"
-  macOS: 
-    name: "${{ matrix.name }}"
-    runs-on: "${{ matrix.image }}"
-    steps: 
-      - 
-        name: "Matrix contents"
+        compiler: ["msvc"]
+        cmake_preset: windows-${{ matrix.compiler }}-release
+ 
+    steps:
+      - name: "Matrix contents"
         run: |
-            echo "${{ matrix.name }}"
-            echo "${{ matrix.compiler }}"
-            echo "${{ matrix.cmake_preset }}"
-    strategy: 
+          Write-Host "${{ matrix.name }}"
+          Write-Host "${{ matrix.compiler }}"
+          Write-Host "${{ matrix.cmake_preset }}"
+
+  Linux:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.image }}
+    strategy:
       fail-fast: false
-      matrix: 
-        cmake_preset: "windows-${{ matrix.compiler }}-release"
-        compiler: 
-          - clang
-          - gcc
+      matrix:
+        name: Linux ${{ matrix.compiler }}
+        image: ubuntu-latest
+        compiler: ["clang", "gcc"]
+        cmake_preset: windows-${{ matrix.compiler }}-release
+ 
+    steps:
+      - name: "Matrix contents"
+        run: |
+          echo "${{ matrix.name }}"
+          echo "${{ matrix.compiler }}"
+          echo "${{ matrix.cmake_preset }}"
+
+  macOS:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        name: macOS ${{ matrix.compiler }}
         image: macos-latest
-        name: "macOS ${{ matrix.compiler }}"
-name: "CMake build"
-true: 
-  pull_request: 
-    branches: 
-      - main
-  push: 
-    branches: 
-      - main
-  workflow_dispatch: ~
+        compiler: ["clang", "gcc"]
+        cmake_preset: windows-${{ matrix.compiler }}-release
+ 
+    steps:
+      - name: "Matrix contents"
+        run: |
+          echo "${{ matrix.name }}"
+          echo "${{ matrix.compiler }}"
+          echo "${{ matrix.cmake_preset }}"
+
