@@ -19,7 +19,11 @@ jobs:
       matrix:
         image:    [ windows-latest ]
         os:       [ windows ]
-        compiler: [ "msvc" ]
+        config:
+        - {
+            compiler: "msvc",
+            foo:      "xyz"
+          }
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
@@ -38,7 +42,15 @@ jobs:
       matrix:
         image:    [ ubuntu-latest ]
         os:       [ linux ]
-        compiler: [ "clang", "gcc" ]
+        config:
+        - {
+            compiler: "clang",
+            foo:      "xyz"
+          }
+        - {
+            compiler: "gcc",
+            foo:      "xyz"
+          }
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
@@ -57,7 +69,12 @@ jobs:
       matrix:
         image:    [ macos-latest ]
         os:       [ macos ]
-        compiler: [ "clang" ]
+        config:
+        - {
+            compiler: "clang",
+            foo:      "xyz"
+          }
+
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
