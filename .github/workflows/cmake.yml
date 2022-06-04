@@ -16,13 +16,15 @@ jobs:
       matrix:
         image: [windows-latest]
         compiler: ["msvc"]
-        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
+    env:
+      CMAKE_PRESET : windows-${{ matrix.compiler }}-release
+
     steps:
       - name: "Matrix contents"
         run: |
           Write-Host "${{ matrix.compiler }}"
-          Write-Host "${{ matrix.cmake_preset }}"
+          Write-Host "${{ env.CMAKE_PRESET }}"
 
   Linux:
     name: Linux ${{ matrix.compiler }}
