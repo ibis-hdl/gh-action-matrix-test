@@ -2,9 +2,9 @@ name: 'CMake build'
 
 on:
   push:
-    branches: [ main ]
+    branches: [  main  ]
   pull_request:
-    branches: [ main ]
+    branches: [  main  ]
   workflow_dispatch:
 
 env:
@@ -17,9 +17,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [windows-latest]
-        os: [windows]
-        compiler: ["msvc"]
+        image:    [ windows-latest ]
+        os:       [ windows ]
+        compiler: [ "msvc" ]
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
@@ -36,9 +36,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [ubuntu-latest]
-        os: [linux]
-        compiler: ["clang", "gcc"]
+        image:    [ ubuntu-latest ]
+        os:       [ linux ]
+        compiler: [ "clang", "gcc" ]
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
@@ -55,9 +55,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [macos-latest]
-        os: [macos]
-        compiler: ["clang", "gcc"]
+        image:    [ macos-latest ]
+        os:       [ macos ]
+        compiler: [ "clang" ]
  
     env:
       CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.compiler }}
