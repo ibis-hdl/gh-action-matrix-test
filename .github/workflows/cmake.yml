@@ -14,9 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: windows-latest
+        image: [windows-latest]
         compiler: ["msvc"]
-        cmake_preset: windows-${{ matrix.compiler }}-release
+        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
     steps:
       - name: "Matrix contents"
@@ -30,9 +30,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ubuntu-latest
+        image: [ubuntu-latest]
         compiler: ["clang", "gcc"]
-        cmake_preset: windows-${{ matrix.compiler }}-release
+        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
     steps:
       - name: "Matrix contents"
@@ -46,9 +46,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: macos-latest
+        image: [macos-latest]
         compiler: ["clang", "gcc"]
-        cmake_preset: windows-${{ matrix.compiler }}-release
+        cmake_preset: [windows-${{ matrix.compiler }}-release]
  
     steps:
       - name: "Matrix contents"
