@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         image: [windows-latest]
-        os: 'windows'
+        os: [windows]
         compiler: ["msvc"]
  
     env:
@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         image: [ubuntu-latest]
-        os: 'linux'
+        os: [linux]
         compiler: ["clang", "gcc"]
  
     env:
@@ -56,7 +56,7 @@ jobs:
       fail-fast: false
       matrix:
         image: [macos-latest]
-        os: 'macos'
+        os: [macos]
         compiler: ["clang", "gcc"]
  
     env:
