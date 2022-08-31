@@ -11,55 +11,65 @@ env:
   GLOBAL_VAR : "Hello"
 
 jobs:
-  Windows:
-    name: Windows ${{ matrix.config.compiler }}
-    runs-on: ${{ matrix.image }}
-    strategy:
-      fail-fast: false
-      matrix:
-        image:    [ windows-latest ]
-        os:       [ windows ]
-        config:
-        - {
-            compiler: "msvc",
-            foo:      "xyz"
-          }
- 
-    env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
-
-    steps:
-      - name: "Matrix contents"
-        run: |
-          Write-Host "${{ matrix.config.compiler }}"
-          Write-Host "${{ env.CMAKE_PRESET }}"
-
   Linux:
     name: Linux ${{ matrix.config.compiler }}
     runs-on: ${{ matrix.image }}
     strategy:
       fail-fast: false
       matrix:
-        image:    [ ubuntu-latest ]
+        # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+        image:    [ ubuntu-22.04 ]
         os:       [ linux ]
         config:
         - {
             compiler: "clang",
-            foo:      "xyz"
+            preset:   "linux-clang-release",
+          }
+        - {
+            compiler: "clang-13-libc++",
+            preset:   "linux-clang-13-libc++-release",
+            apt-xpkg:  "clang-13 libc++-13-dev libc++abi-13-dev",
           }
         - {
             compiler: "gcc",
-            foo:      "xyz"
+            preset:   "linux-gcc-release",
           }
- 
-    env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
 
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.config.compiler }}"
-          echo "${{ env.CMAKE_PRESET }}"
+          echo "compiler:     ${{ matrix.config.compiler }}"
+          echo "CMake preset: ${{ matrix.config.preset }}"
+          if [[ -n "${{ matrix.config.apt-xpkg }}" ]]; then
+            echo "APT packages: ${{ matrix.config.apt-xpkg }}";
+          fi
+
+  Windows:
+    name: Windows ${{ matrix.config.compiler }}
+    runs-on: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # https://github.com/actions/runner-images/blob/main/images/win/Windows2022-Readme.md
+        image:    [ windows-2022 ]
+        os:       [ windows ]
+        config:
+        - {
+            compiler: "msvc",
+            preset:   "windows-msvc-release",
+            vcvars:   "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Auxiliary\\Build\\vcvars64.bat",
+          }
+        - {
+            compiler: "clang",
+            preset:   "windows-clang-release",
+            vcvars:   "C:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\VC\\Auxiliary\\Build\\vcvars64.bat",
+          }
+
+    steps:
+      - name: "Matrix contents"
+        run: |
+          Write-Host "compiler:     ${{ matrix.config.compiler }}"
+          Write-Host "CMake preset: ${{ matrix.config.preset }}"
 
   macOS:
     name: macOS ${{ matrix.config.compiler }}
@@ -67,21 +77,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:    [ macos-latest ]
+        # https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md
+        image:    [ macos-12 ]
         os:       [ macos ]
         config:
         - {
             compiler: "clang",
-            foo:      "xyz"
+            preset:   "macos-clang-release",
           }
-
- 
-    env:
-      CMAKE_PRESET : ci-${{ matrix.os }}-${{ matrix.config.compiler }}
 
     steps:
       - name: "Matrix contents"
         run: |
-          echo "${{ matrix.config.compiler }}"
-          echo "${{ env.CMAKE_PRESET }}"
-
+          echo "compiler:     ${{ matrix.config.compiler }}"
+          echo "CMake preset: ${{ matrix.config.preset }}"
